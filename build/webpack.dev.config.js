@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 var BASE_DIR = path.resolve(__dirname, '../');
 var SRC_DIR = path.join(BASE_DIR, './src');
@@ -75,6 +76,7 @@ module.exports = {
     },
 
     plugins: [
+        new Dotenv(),
         new HtmlWebpackPlugin({
           template: 'index.html'
         }),

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import propTypes from 'prop-types';
 import { Form, Layout, Dialog, Input, Button } from 'element-react';
-
+import { latestPrice } from './Api.js';
 
 export class Modal extends React.Component  {
   constructor(props) {
@@ -28,8 +28,14 @@ export class Modal extends React.Component  {
     this.editForm = this.editForm.bind(this);
   }
 
-  onSubmit(e) {
+  async onSubmit(e) {
     e.preventDefault();
+    try {
+      this.state.form.price = await latestPrice(this.state.form.ticker)
+    } catch(err) {
+      console.log("Not a US listed equity");
+    }
+
     this.refs.form.validate((valid) => {
       if (valid) {
         let cloned_form = JSON.parse(JSON.stringify(this.state.form));
